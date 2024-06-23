@@ -8,6 +8,10 @@ const User = mongoose.model("User", {
     },
     password: String,
     otp: Number,
+    verifiedAt: {
+        type: Date,
+        required: false,
+    },
 });
 
 module.exports = {

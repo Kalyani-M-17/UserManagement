@@ -37,6 +37,36 @@ router.post("/register", async (req,res) => {
     }
     res.send(doc);
 });
+
+router.post("/verify_otp", async (req,res) => {
+    const otp = req.body.otp;
+    const email = req.body.email;
+
+    const user = await User.findOne({
+        email : email,
+    });
+
+    if (!user) {
+        return res.status(401).send({
+            message: "Account does not exist",
+        });
+    }
+
+    if(user.otp != otp) {
+        return res.status(422).send({
+            message: "Invalid OTP",
+        });
+    }
+
+    user.verifiedAt = new Date();
+    user.save();
+
+    // res.send("OTP");
+    return res.status(200).send({
+        message: "Success",
+    });
+
+});
     
 module.exports = router;
 
