@@ -1,3 +1,4 @@
+const { hashPassword } = require("../controllers/authController");
 const { sendOTPMail } = require("../controllers/mailController");
 const { User } = require("../models/User");
 
@@ -24,7 +25,9 @@ router.post("/register", async (req,res) => {
         });
     }
 
-    const user = new User({...data, otp});
+    // const user = new User({...data, otp});
+    const password = await hashPassword(data.password);
+    const user = new User({...data, otp, password});
     const doc = await user.save();
     if (doc) {
         sendOTPMail(data.email, otp);
