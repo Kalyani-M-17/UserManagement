@@ -1,13 +1,35 @@
-const { hashPassword } = require("../controllers/authController");
+// const { hashPassword } = require("../controllers/authController");
+const { hashPassword, comparePassword } = require("../controllers/authController");
 const { sendOTPMail } = require("../controllers/mailController");
 const { User } = require("../models/User");
-
 const Router = require("express").Router;
+const jwt = require("jsonwebtoken");
 
 const router = Router();
 
-router.post("/login", (req,res) => {
-    res.send("Login...");
+router.post("/login", async(req,res) => {
+    const data = req.body;
+    let user = await User.findOne({ email: data.email });
+
+    //Check is password is matching
+    const isMatch = await comparePassword(data.password, user.password);
+    if(!isMatch) {
+        return res.status(400).json({ message: "Invalid credentials" });
+    }
+
+    const payload = {
+        user: {
+            id: user.id,
+        },
+    };
+
+    jwt.sign(payload, "kauaaaooollagytyuyiouiu", {expiresIn: 3600}, (err, token) => {
+        if (err) {
+            res.status(500).json({ message: "Something went wrong" });
+        }
+        
+        res.send({ token });
+    });
 });
 
 router.post("/register", async (req,res) => {
