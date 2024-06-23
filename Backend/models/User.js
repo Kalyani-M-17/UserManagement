@@ -7,6 +7,7 @@ const User = mongoose.model("User", {
         required: true,
     },
     password: String,
+    otp: Number,
 });
 
 module.exports = {
