@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const authRoute = require("./routes/authRoute");
 
 const mongoose = require("mongoose");
+const { allowOnlyLoggedInUser } = require("./middlewares/authMiddleware");
 mongoose.connect("mongodb://localhost:27017/test").then(() => {
     console.log("Connected....");
 });
@@ -17,6 +18,10 @@ app.use(bodyParser.json());
 // });
 
 app.use("/auth", authRoute);
+
+app.get("/", allowOnlyLoggedInUser, (req, res) => {
+    res.send(req.user);
+});
 
 app.listen(5500, () => {
     console.log("Server Started.....");
