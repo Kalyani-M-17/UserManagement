@@ -15,6 +15,7 @@ router.post("/register", async (req,res) => {
 
     const otp = Math.floor(1000 + Math.random() * 9000);
 
+    //Checking if user is already available
     const checkUser = await User.findOne({
         email:data.email,
     });
@@ -26,6 +27,8 @@ router.post("/register", async (req,res) => {
     }
 
     // const user = new User({...data, otp});
+
+    // hash password
     const password = await hashPassword(data.password);
     const user = new User({...data, otp, password});
     const doc = await user.save();
