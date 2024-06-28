@@ -12,9 +12,16 @@ function LoginPage() {
         e.preventDefault();
         axiosInstance.post("/auth/login", data).then((res) => {
             console.log(res);
-            if(res.status == 200){
+            if(res.status == 200){  
                 alert("Logged In");
                 localStorage.setItem("token", res.data.token);
+                localStorage.setItem("email_verified", res.data.email_verified);
+
+                if (res.data.email_verified == null) {
+                    window.location.replace("/verify");
+                } else {
+                    window.location.replace("/");
+                }
             }
             setData({
                 email: "",
@@ -26,8 +33,8 @@ function LoginPage() {
     return (
         <div className="container m-5">
             <Card>
-                <CardHeader>
-                    <CardTitle tag="h5">Register</CardTitle>    
+                <CardHeader> 
+                    <CardTitle tag="h5">Login</CardTitle>    
                 </CardHeader>
                 <CardBody>
                     <Form onSubmit={handle}>
