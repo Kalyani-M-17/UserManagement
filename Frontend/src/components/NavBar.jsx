@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
-import { Nav, NavItem } from "reactstrap";
+import { Button, Nav, NavItem } from "reactstrap";
 
 function NavBar() {
     return (
-        <div className="p-4 bg-secondary text-white d-flex justify-content-between">
+        <div className="p-4 bg-secondary text-white d-flex justify-content-between align-items-center">
             <h4>MyApp</h4>
             <Nav className="gap-4">
                 <NavItem>
@@ -21,7 +21,16 @@ function NavBar() {
                     Login
                     </Link>
                 </NavItem>
-
+                <NavItem>
+                    <Button
+                        onClick={() => {
+                            localStorage.removeItem("token");
+                            window.location.replace("/login");
+                        }}
+                    >
+                        Logout
+                    </Button>
+                </NavItem>
             </Nav>
 
         </div>
