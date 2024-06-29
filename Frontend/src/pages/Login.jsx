@@ -62,6 +62,8 @@ function LoginPage() {
                 required
                 type="email"
                 value={data.email}
+                pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$"
+                title="Need proper email id"
                 onChange={(e) => {
                   setData({ ...data, email: e.target.value });
                 }}
