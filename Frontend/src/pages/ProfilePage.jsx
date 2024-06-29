@@ -48,6 +48,24 @@ function ProfilePage() {
           <Input readOnly disabled value={profile.email}></Input>
         </FormGroup>
         <Button>Update</Button>
+        <span> </span>
+        <Button
+          type="button"
+          color="danger"
+          onClick={(e) => {
+            e.preventDefault();
+            axiosInstance.delete("/profile").then((res) => {
+              if (res.status !== 200) {
+                alert("Something went wrong");
+                return;
+              }
+              localStorage.removeItem("token");
+              window.location.replace("/login");
+            });
+          }}
+        >
+          Delete Profile
+        </Button>
       </Form>
     </div>
   );
