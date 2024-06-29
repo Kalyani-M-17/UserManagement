@@ -6,12 +6,19 @@ const cors = require("cors");
 
 const mongoose = require("mongoose");
 const { allowOnlyLoggedInUser } = require("./middlewares/authMiddleware");
+
+/**
+ * Database connection
+ */
+
 mongoose.connect("mongodb://localhost:27017/test").then(() => {
   console.log("Connected....");
 });
 
 const app = express();
+//Body Parser to parse incoming data
 app.use(bodyParser.json());
+//cors() to enable cross site origin support
 app.use(cors());
 
 // app.get("/", (req,res) =>{
