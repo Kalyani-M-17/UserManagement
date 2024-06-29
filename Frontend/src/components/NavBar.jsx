@@ -27,7 +27,14 @@ function NavBar() {
             </Link>
           </NavItem>
         )}
-        {!token && (
+        {token && (
+          <NavItem>
+            <Link className="text-white" to={"/profile"}>
+              Profile
+            </Link>
+          </NavItem>
+        )}
+        {token && (
           <NavItem>
             <Button
               onClick={() => {
